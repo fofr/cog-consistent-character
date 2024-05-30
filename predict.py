@@ -4,6 +4,7 @@
 import os
 import mimetypes
 import json
+import random
 from PIL import Image, ExifTags
 from typing import List
 from cog import BasePredictor, Input, Path
@@ -15,6 +16,9 @@ OUTPUT_DIR = "/tmp/outputs"
 INPUT_DIR = "/tmp/inputs"
 COMFYUI_TEMP_OUTPUT_DIR = "ComfyUI/temp"
 ALL_DIRECTORIES = [OUTPUT_DIR, INPUT_DIR, COMFYUI_TEMP_OUTPUT_DIR]
+
+MAX_HEADSHOTS = 59
+MAX_POSES = 30
 
 mimetypes.add_type("image/webp", ".webp")
 
@@ -34,6 +38,35 @@ class Predictor(BasePredictor):
             workflow,
             weights_to_download=[],
         )
+
+        # Download pose images
+        self.comfyUI.weights_downloader.download(
+            "pose_images.tar",
+            "https://weights.replicate.delivery/default/fofr/character/pose_images.tar",
+            f"{INPUT_DIR}/poses",
+        )
+
+        self.comfyUI.get_files(INPUT_DIR)
+
+    def generate_random_filenames(self, length, use_random=True, type="headshot"):
+        if type == "headshot":
+            max_value = MAX_HEADSHOTS
+        elif type == "pose":
+            max_value = MAX_POSES
+        else:
+            raise ValueError("Invalid type specified. Use 'headshot' or 'pose'.")
+
+        if length > max_value:
+            raise ValueError(
+                f"Length cannot be greater than {max_value} for type {type}."
+            )
+
+        filenames = [f"_{str(i).zfill(5)}_.png" for i in range(1, max_value + 1)]
+
+        if use_random:
+            random.shuffle(filenames)
+
+        return filenames[:length]
 
     def handle_input_file(
         self,
@@ -65,17 +98,14 @@ class Predictor(BasePredictor):
 
     # Update nodes in the JSON workflow to modify your workflow based on the given inputs
     def update_workflow(self, workflow, **kwargs):
-        # Below is an example showing how to get the node you need and update the inputs
+        positive_prompt = workflow["9"]["inputs"]
+        positive_prompt["text"] = kwargs["prompt"]
 
-        # positive_prompt = workflow["6"]["inputs"]
-        # positive_prompt["text"] = kwargs["prompt"]
+        negative_prompt = workflow["10"]["inputs"]
+        negative_prompt["text"] = f"nsfw, naked, nude, {kwargs['negative_prompt']}"
 
-        # negative_prompt = workflow["7"]["inputs"]
-        # negative_prompt["text"] = f"nsfw, {kwargs['negative_prompt']}"
-
-        # sampler = workflow["3"]["inputs"]
-        # sampler["seed"] = kwargs["seed"]
-        pass
+        sampler = workflow["11"]["inputs"]
+        sampler["seed"] = kwargs["seed"]
 
     def predict(
         self,
@@ -86,8 +116,8 @@ class Predictor(BasePredictor):
             description="Things you do not want to see in your image",
             default="",
         ),
-        image: Path = Input(
-            description="An input image",
+        subject: Path = Input(
+            description="An image of a person. Best images are square close ups of a face, but they do not have to be.",
             default=None,
         ),
         output_format: str = optimise_images.predict_output_format(),
@@ -100,8 +130,8 @@ class Predictor(BasePredictor):
         # Make sure to set the seeds in your workflow
         seed = seed_helper.generate(seed)
 
-        if image:
-            self.handle_input_file(image)
+        if subject:
+            self.handle_input_file(subject, filename="subject.png")
 
         with open(api_json_file, "r") as file:
             workflow = json.loads(file.read())

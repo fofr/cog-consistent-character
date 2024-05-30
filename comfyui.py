@@ -263,12 +263,14 @@ class ComfyUI:
                     files.append(Path(path))
                 elif os.path.isdir(path):
                     print(f"{prefix}{f}/")
-                    files.extend(self.return_outputs(path, prefix=f"{prefix}{f}/"))
+                    files.extend(self.get_files(path, prefix=f"{prefix}{f}/"))
         return files
 
     def cleanup(self, directories):
         self.clear_queue()
         for directory in directories:
             if os.path.exists(directory):
+                if directory == "/tmp/inputs/poses":
+                    continue
                 shutil.rmtree(directory)
             os.makedirs(directory)
