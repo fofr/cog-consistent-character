@@ -34,5 +34,13 @@
   {
     "repo": "https://github.com/huchenlei/ComfyUI-IC-Light-Native",
     "commit": "5c065e1"
+  },
+  {
+    "repo": "https://github.com/fofr/ComfyUI-Impact-Pack",
+    "commit": "07a18e7"
+  },
+  {
+    "repo": "https://github.com/WASasquatch/was-node-suite-comfyui",
+    "commit": "33534f2"
   }
 ]

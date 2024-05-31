@@ -124,7 +124,7 @@ class Predictor(BasePredictor):
         positive_prompt["text"] = kwargs["prompt"]
 
         negative_prompt = workflow["10"]["inputs"]
-        negative_prompt["text"] = f"nsfw, naked, nude, {kwargs['negative_prompt']}"
+        negative_prompt["text"] = f"(nsfw:1.5), naked, {kwargs['negative_prompt']}, lowres, child, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, multiple view, reference sheet, mutated, poorly drawn, mutation, deformed, ugly, bad proportions, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, amateur drawing, odd eyes, uneven eyes, unnatural face, uneven nostrils, crooked mouth, bad teeth, crooked teeth, gross, ugly, very long body, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn eyes"
 
         sampler = workflow["11"]["inputs"]
         sampler["seed"] = kwargs["seed"]
@@ -161,7 +161,7 @@ class Predictor(BasePredictor):
             default="Both headshots and half-body poses",
         ),
         number_of_outputs: int = Input(
-            description="The number of images to generate.", default=5, ge=1, le=90
+            description="The number of images to generate.", default=3, ge=1, le=20
         ),
         number_of_images_per_pose: int = Input(
             description="The number of images to generate for each pose.",
@@ -184,8 +184,6 @@ class Predictor(BasePredictor):
 
         self.handle_input_file(subject, filename="subject.png")
         poses = self.get_poses(number_of_outputs, randomise_poses, type)
-
-        print(poses)
 
         with open(api_json_file, "r") as file:
             workflow = json.loads(file.read())
