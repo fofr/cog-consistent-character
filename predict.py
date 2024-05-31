@@ -144,6 +144,7 @@ class Predictor(BasePredictor):
         self,
         prompt: str = Input(
             default="A headshot photo",
+            description="Describe the subject. Include clothes and hairstyle for more consistency."
         ),
         negative_prompt: str = Input(
             description="Things you do not want to see in your image",
