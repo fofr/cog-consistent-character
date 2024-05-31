@@ -6,7 +6,7 @@ Run on Replicate:
 
 https://replicate.com/fofr/consistent-character
 
-There is a workflow that you can use directly in ComfyUI, but it will only product one pose at a time:
+There is a workflow that you can use directly in ComfyUI, but it will only produce one pose at a time:
 
 https://github.com/fofr/cog-consistent-character/blob/main/workflow_ui.json
 
