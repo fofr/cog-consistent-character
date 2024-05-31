@@ -6,7 +6,7 @@ import mimetypes
 import json
 import random
 from PIL import Image, ExifTags
-from typing import List
+from typing import List, Iterator
 from cog import BasePredictor, Input, Path
 from comfyui import ComfyUI
 from cog_model_helpers import optimise_images
@@ -124,7 +124,9 @@ class Predictor(BasePredictor):
         positive_prompt["text"] = kwargs["prompt"]
 
         negative_prompt = workflow["10"]["inputs"]
-        negative_prompt["text"] = f"(nsfw:1.5), naked, {kwargs['negative_prompt']}, lowres, child, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, multiple view, reference sheet, mutated, poorly drawn, mutation, deformed, ugly, bad proportions, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, amateur drawing, odd eyes, uneven eyes, unnatural face, uneven nostrils, crooked mouth, bad teeth, crooked teeth, gross, ugly, very long body, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn eyes"
+        negative_prompt["text"] = (
+            f"(nsfw:2), nipple, nude, naked, {kwargs['negative_prompt']}, lowres, two people, child, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, multiple view, reference sheet, mutated, poorly drawn, mutation, deformed, ugly, bad proportions, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, amateur drawing, odd eyes, uneven eyes, unnatural face, uneven nostrils, crooked mouth, bad teeth, crooked teeth, gross, ugly, very long body, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn eyes"
+        )
 
         sampler = workflow["11"]["inputs"]
         sampler["seed"] = kwargs["seed"]
@@ -151,15 +153,15 @@ class Predictor(BasePredictor):
             description="An image of a person. Best images are square close ups of a face, but they do not have to be.",
             default=None,
         ),
-        type: str = Input(
-            description="The type of images to generate, headshots, half-body poses or both.",
-            choices=[
-                "Both headshots and half-body poses",
-                "Headshot poses",
-                "Half-body poses",
-            ],
-            default="Both headshots and half-body poses",
-        ),
+        # type: str = Input(
+        #     description="The type of images to generate, headshots, half-body poses or both.",
+        #     choices=[
+        #         "Both headshots and half-body poses",
+        #         "Headshot poses",
+        #         "Half-body poses",
+        #     ],
+        #     default="Both headshots and half-body poses",
+        # ),
         number_of_outputs: int = Input(
             description="The number of images to generate.", default=3, ge=1, le=20
         ),
@@ -175,9 +177,12 @@ class Predictor(BasePredictor):
         output_format: str = optimise_images.predict_output_format(),
         output_quality: int = optimise_images.predict_output_quality(),
         seed: int = seed_helper.predict_seed(),
-    ) -> List[Path]:
+    ) -> Iterator[Path]:
         """Run a single prediction on the model"""
         self.comfyUI.cleanup(ALL_DIRECTORIES)
+
+        # Headshot poses are not coming out consistently good
+        type = "Half-body poses"
 
         using_fixed_seed = bool(seed)
         seed = seed_helper.generate(seed)
@@ -193,6 +198,7 @@ class Predictor(BasePredictor):
         if using_fixed_seed:
             self.comfyUI.reset_execution_cache()
 
+        returned_files = []
         for pose in poses:
             self.update_workflow(
                 workflow,
@@ -206,7 +212,17 @@ class Predictor(BasePredictor):
                 pose=pose,
             )
             self.comfyUI.run_workflow(workflow)
+            all_output_files = self.comfyUI.get_files(OUTPUT_DIR)
+            new_files = [
+                file for file in all_output_files if file.name.rsplit('.', 1)[0] not in returned_files
+            ]
+            optimised_images = optimise_images.optimise_image_files(
+                output_format, output_quality, new_files
+            )
+            for image in optimised_images:
+                yield Path(image)
+            returned_files.extend([file.name.rsplit('.', 1)[0] for file in all_output_files])
 
-        return optimise_images.optimise_image_files(
-            output_format, output_quality, self.comfyUI.get_files(OUTPUT_DIR)
-        )
+        # return optimise_images.optimise_image_files(
+        #     output_format, output_quality, self.comfyUI.get_files(OUTPUT_DIR)
+        # )
