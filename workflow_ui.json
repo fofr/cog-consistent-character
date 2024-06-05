@@ -1,6 +1,6 @@
 {
-  "last_node_id": 115,
-  "last_link_id": 233,
+  "last_node_id": 122,
+  "last_link_id": 242,
   "nodes": [
     {
       "id": 1,
@@ -195,7 +195,7 @@
         "1": 98
       },
       "flags": {},
-      "order": 17,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -211,7 +211,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 189
+          "link": 242
         }
       ],
       "outputs": [
@@ -244,7 +244,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 19,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -281,12 +281,12 @@
         5828,
         -871
       ],
-      "size": [
-        210,
-        246
-      ],
+      "size": {
+        "0": 210,
+        "1": 246
+      },
       "flags": {},
-      "order": 22,
+      "order": 27,
       "mode": 0,
       "inputs": [
         {
@@ -311,7 +311,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 26,
+      "order": 31,
       "mode": 0,
       "inputs": [
         {
@@ -352,7 +352,7 @@
         "1": 266
       },
       "flags": {},
-      "order": 16,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -393,7 +393,7 @@
         {
           "name": "image_kps",
           "type": "IMAGE",
-          "link": 188
+          "link": 241
         },
         {
           "name": "mask",
@@ -455,7 +455,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 23,
+      "order": 28,
       "mode": 0,
       "inputs": [
         {
@@ -496,7 +496,7 @@
         "1": 246
       },
       "flags": {},
-      "order": 24,
+      "order": 29,
       "mode": 0,
       "inputs": [
         {
@@ -516,12 +516,12 @@
         3148,
         196
       ],
-      "size": [
-        790.3585945600566,
-        727.7048805651185
-      ],
+      "size": {
+        "0": 790.3585815429688,
+        "1": 727.7048950195312
+      },
       "flags": {},
-      "order": 20,
+      "order": 25,
       "mode": 0,
       "inputs": [
         {
@@ -542,12 +542,12 @@
         4007,
         202
       ],
-      "size": [
-        723.5699935037755,
-        724.7476222709581
-      ],
+      "size": {
+        "0": 723.5700073242188,
+        "1": 724.7476196289062
+      },
       "flags": {},
-      "order": 27,
+      "order": 32,
       "mode": 0,
       "inputs": [
         {
@@ -572,7 +572,7 @@
         "1": 226
       },
       "flags": {},
-      "order": 25,
+      "order": 30,
       "mode": 0,
       "inputs": [
         {
@@ -614,12 +614,12 @@
         8054.3463387737265,
         -703.7322512684176
       ],
-      "size": [
-        210,
-        246
-      ],
+      "size": {
+        "0": 210,
+        "1": 246
+      },
       "flags": {},
-      "order": 33,
+      "order": 38,
       "mode": 0,
       "inputs": [
         {
@@ -644,7 +644,7 @@
         "1": 226
       },
       "flags": {},
-      "order": 32,
+      "order": 37,
       "mode": 0,
       "inputs": [
         {
@@ -690,7 +690,7 @@
         "1": 262
       },
       "flags": {},
-      "order": 28,
+      "order": 33,
       "mode": 0,
       "inputs": [
         {
@@ -739,84 +739,6 @@
       ]
     },
     {
-      "id": 94,
-      "type": "LoadImage",
-      "pos": [
-        1991,
-        -625
-      ],
-      "size": {
-        "0": 315,
-        "1": 314
-      },
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            188
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "headshot_kps_00006_.png",
-        "image"
-      ]
-    },
-    {
-      "id": 95,
-      "type": "LoadImage",
-      "pos": [
-        2351,
-        -262
-      ],
-      "size": {
-        "0": 396.93450927734375,
-        "1": 348.37152099609375
-      },
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            189
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "headshot_dw_pose_00006_.png",
-        "image"
-      ]
-    },
-    {
       "id": 29,
       "type": "EmptyLatentImage",
       "pos": [
@@ -828,7 +750,7 @@
         "1": 106
       },
       "flags": {},
-      "order": 6,
+      "order": 4,
       "mode": 0,
       "outputs": [
         {
@@ -862,7 +784,7 @@
         "1": 262
       },
       "flags": {},
-      "order": 18,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -962,7 +884,7 @@
         "1": 314
       },
       "flags": {},
-      "order": 7,
+      "order": 5,
       "mode": 0,
       "outputs": [
         {
@@ -1042,7 +964,7 @@
         "1": 278
       },
       "flags": {},
-      "order": 15,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -1111,7 +1033,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 29,
+      "order": 34,
       "mode": 0,
       "inputs": [
         {
@@ -1153,7 +1075,7 @@
         "1": 98
       },
       "flags": {},
-      "order": 8,
+      "order": 6,
       "mode": 0,
       "outputs": [
         {
@@ -1213,7 +1135,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 9,
+      "order": 7,
       "mode": 0,
       "outputs": [
         {
@@ -1332,7 +1254,7 @@
         "1": 880
       },
       "flags": {},
-      "order": 31,
+      "order": 36,
       "mode": 0,
       "inputs": [
         {
@@ -1467,12 +1389,12 @@
         7528,
         -880
       ],
-      "size": [
-        315,
-        270
-      ],
+      "size": {
+        "0": 315,
+        "1": 270
+      },
       "flags": {},
-      "order": 30,
+      "order": 35,
       "mode": 0,
       "inputs": [
         {
@@ -1498,7 +1420,7 @@
         "1": 880
       },
       "flags": {},
-      "order": 21,
+      "order": 26,
       "mode": 0,
       "inputs": [
         {
@@ -1626,6 +1548,280 @@
         false,
         20
       ]
+    },
+    {
+      "id": 117,
+      "type": "LoadImage",
+      "pos": [
+        1080,
+        -280
+      ],
+      "size": [
+        320,
+        310
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            236
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "pose-7.png",
+        "image"
+      ]
+    },
+    {
+      "id": 119,
+      "type": "InstantIDFaceAnalysis",
+      "pos": [
+        1480,
+        -310
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "FACEANALYSIS",
+          "type": "FACEANALYSIS",
+          "links": [
+            234
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InstantIDFaceAnalysis"
+      },
+      "widgets_values": [
+        "CUDA"
+      ]
+    },
+    {
+      "id": 120,
+      "type": "ImageResize+",
+      "pos": [
+        1450,
+        -190
+      ],
+      "size": {
+        "0": 315,
+        "1": 218
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 236
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            237,
+            238
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageResize+"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        "nearest",
+        true,
+        "downscale if bigger",
+        0
+      ]
+    },
+    {
+      "id": 116,
+      "type": "DWPreprocessor",
+      "pos": [
+        1810,
+        -190
+      ],
+      "size": {
+        "0": 315,
+        "1": 198
+      },
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 238
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            239,
+            242
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "POSE_KEYPOINT",
+          "type": "POSE_KEYPOINT",
+          "links": null,
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DWPreprocessor"
+      },
+      "widgets_values": [
+        "enable",
+        "enable",
+        "enable",
+        1024,
+        "yolox_l.onnx",
+        "dw-ll_ucoco_384_bs5.torchscript.pt"
+      ]
+    },
+    {
+      "id": 118,
+      "type": "FaceKeypointsPreprocessor",
+      "pos": [
+        1830,
+        -310
+      ],
+      "size": {
+        "0": 229.20001220703125,
+        "1": 46
+      },
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "faceanalysis",
+          "type": "FACEANALYSIS",
+          "link": 234
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 237
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            240,
+            241
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FaceKeypointsPreprocessor"
+      }
+    },
+    {
+      "id": 122,
+      "type": "PreviewImage",
+      "pos": [
+        2100,
+        -640
+      ],
+      "size": [
+        210,
+        250
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 240
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 121,
+      "type": "PreviewImage",
+      "pos": [
+        2360,
+        -120
+      ],
+      "size": [
+        210,
+        250
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 239
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
     }
   ],
   "links": [
@@ -1803,22 +1999,6 @@
       0,
       2,
       3,
-      "IMAGE"
-    ],
-    [
-      188,
-      94,
-      0,
-      2,
-      7,
-      "IMAGE"
-    ],
-    [
-      189,
-      95,
-      0,
-      74,
-      2,
       "IMAGE"
     ],
     [
@@ -2075,6 +2255,70 @@
       0,
       111,
       0,
+      "IMAGE"
+    ],
+    [
+      234,
+      119,
+      0,
+      118,
+      0,
+      "FACEANALYSIS"
+    ],
+    [
+      236,
+      117,
+      0,
+      120,
+      0,
+      "IMAGE"
+    ],
+    [
+      237,
+      120,
+      0,
+      118,
+      1,
+      "IMAGE"
+    ],
+    [
+      238,
+      120,
+      0,
+      116,
+      0,
+      "IMAGE"
+    ],
+    [
+      239,
+      116,
+      0,
+      121,
+      0,
+      "IMAGE"
+    ],
+    [
+      240,
+      118,
+      0,
+      122,
+      0,
+      "IMAGE"
+    ],
+    [
+      241,
+      118,
+      0,
+      2,
+      7,
+      "IMAGE"
+    ],
+    [
+      242,
+      116,
+      0,
+      74,
+      2,
       "IMAGE"
     ]
   ],
