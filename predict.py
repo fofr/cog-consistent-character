@@ -9,6 +9,7 @@ from PIL import Image, ExifTags
 from typing import List, Iterator
 from cog import BasePredictor, Input, Path
 from comfyui import ComfyUI
+from safety_checker import SafetyChecker
 from cog_model_helpers import optimise_images
 from cog_model_helpers import seed as seed_helper
 
@@ -31,6 +32,7 @@ class Predictor(BasePredictor):
     def setup(self):
         self.comfyUI = ComfyUI("127.0.0.1:8188")
         self.comfyUI.start_server(OUTPUT_DIR, INPUT_DIR)
+        self.safetyChecker = SafetyChecker()
 
         # Give a list of weights filenames to download during setup
         with open(api_json_file, "r") as file:
@@ -144,7 +146,7 @@ class Predictor(BasePredictor):
         self,
         prompt: str = Input(
             default="A headshot photo",
-            description="Describe the subject. Include clothes and hairstyle for more consistency."
+            description="Describe the subject. Include clothes and hairstyle for more consistency.",
         ),
         negative_prompt: str = Input(
             description="Things you do not want to see in your image",
@@ -178,6 +180,9 @@ class Predictor(BasePredictor):
         output_format: str = optimise_images.predict_output_format(),
         output_quality: int = optimise_images.predict_output_quality(),
         seed: int = seed_helper.predict_seed(),
+        disable_safety_checker: bool = Input(
+            description="Disable safety checker for generated images.", default=False
+        ),
     ) -> Iterator[Path]:
         """Run a single prediction on the model"""
         self.comfyUI.cleanup(ALL_DIRECTORIES)
@@ -200,6 +205,9 @@ class Predictor(BasePredictor):
             self.comfyUI.reset_execution_cache()
 
         returned_files = []
+        has_any_nsfw_content = False
+        has_yielded_safe_content = False
+
         for pose in poses:
             self.update_workflow(
                 workflow,
@@ -215,15 +223,34 @@ class Predictor(BasePredictor):
             self.comfyUI.run_workflow(workflow)
             all_output_files = self.comfyUI.get_files(OUTPUT_DIR)
             new_files = [
-                file for file in all_output_files if file.name.rsplit('.', 1)[0] not in returned_files
+                file
+                for file in all_output_files
+                if file.name.rsplit(".", 1)[0] not in returned_files
             ]
             optimised_images = optimise_images.optimise_image_files(
                 output_format, output_quality, new_files
             )
-            for image in optimised_images:
-                yield Path(image)
-            returned_files.extend([file.name.rsplit('.', 1)[0] for file in all_output_files])
 
-        # return optimise_images.optimise_image_files(
-        #     output_format, output_quality, self.comfyUI.get_files(OUTPUT_DIR)
-        # )
+            for image in optimised_images:
+                if not disable_safety_checker:
+                    has_nsfw_content = self.safetyChecker.run(
+                        [image], error_on_all_nsfw=False
+                    )
+                    if any(has_nsfw_content):
+                        has_any_nsfw_content = True
+                        print(f"Not returning image {image} as it has NSFW content.")
+                    else:
+                        yield Path(image)
+                        has_yielded_safe_content = True
+                else:
+                    yield Path(image)
+                    has_yielded_safe_content = True
+
+            returned_files.extend(
+                [file.name.rsplit(".", 1)[0] for file in all_output_files]
+            )
+
+        if has_any_nsfw_content and not has_yielded_safe_content:
+            raise Exception(
+                "NSFW content detected in all outputs. Try running it again, or try a different prompt."
+            )

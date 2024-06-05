@@ -14,3 +14,4 @@ weights.txt
 manifest.txt
 updated_weights.json
 .cog
+safety-cache/

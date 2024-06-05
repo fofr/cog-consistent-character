@@ -47,3 +47,6 @@ ComfyUI/tests-ui
 ComfyUI/notebooks
 ComfyUI/script_examples
 ComfyUI/comfyui_screenshot.png
+
+# Safety checker
+safety-cache/
